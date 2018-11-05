@@ -58,6 +58,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         mSqLiteDatabase.close();
     }
+    
+       /*
+     * Using Model Class
+     * */
+    public void insertNote(NoteModel noteModel) {
+        mSqLiteDatabase = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TBL_NOTE_KEY_TITLE, noteModel.getTitle());
+        values.put(TBL_NOTE_KEY_DESC, noteModel.getDescription());
+        mSqLiteDatabase.insertWithOnConflict(TABLE_NOTE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        mSqLiteDatabase.close();
+        SQLiteDatabase.releaseMemory();
+    }
 
     public ArrayList<NoteModel> getAllNotes() {
         final Cursor cur;
